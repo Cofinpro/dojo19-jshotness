@@ -3,7 +3,7 @@
 }
 
 .App-logo {
-  animation: App-logo-spin infinite 20s linear;
+  animation: App-logo-wiggle infinite 2s ease-in-out;
   /*position: relative;
   animation: myfirst 5s 2;*/
   height: 40vmin;
@@ -33,11 +33,8 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+@keyframes App-logo-wiggle {
+  0% {  transform: rotate(20deg); }
+  50% {  transform: rotate(-20deg); }
+  100% {  transform: rotate(20deg); }
 }
