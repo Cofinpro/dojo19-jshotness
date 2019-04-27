@@ -75,12 +75,14 @@ class Gotchi extends React.Component {
   applyMedicine = () => {
     if(this.secondsSince(this.state.lastTimeMedicine) < 3) {
       this.logInfo("too much medicine is no good");
+      this.logNegative("Do I have to take it again???");
       this.increaseHealth(-1);
       return;
     }
     this.setState((state) => ({ lastTimeMedicine: new Date() }));
 
     this.logInfo("taking medicine");
+    this.logPositive("Ahhh... I already start feeling better");
     if (this.state.health >= 90) {
       this.logPositive("healed fully");
     }
