@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { Tamagotchi } from "../models/tamagotchi";
 import { TamagotchiStatus } from "../models/TamagotchiStatus";
 
@@ -10,7 +10,7 @@ import { TamagotchiService } from '../services/tamagotchi.service';
   styleUrls: ['./tamagotchi.component.css']
 })
 
-export class TamagotchiComponent implements OnInit {
+export class TamagotchiComponent implements OnInit, OnChanges {
 
 
   public tama : Tamagotchi;
@@ -21,6 +21,10 @@ export class TamagotchiComponent implements OnInit {
 
   ngOnInit(): void {
     this.tama = this.tamagotchi.getTamagotchi();
+  }
+
+  ngOnChanges(): void {
+    console.log("Änderung wurde vorgenommen")
   }
 
   getStatus() {
