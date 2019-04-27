@@ -19,7 +19,7 @@ class Gotchi extends React.Component {
       age: 0, // starting from 0
       mood: 75, // range: 100 (perfect) to 0 (maximum angry)
       health: 70, // range: 100 (perfect) to 0 (dead)
-      hunger: 9, // range: 0 to 10
+      hunger: 5, // range: 0 to 10
       sugar: 0, // range: 0 to 10, ab 5 gesundheitsschädlich
       lastTimeMedicine: new Date(0),
       lastTimeApple: new Date(0),
@@ -193,15 +193,15 @@ class Gotchi extends React.Component {
     // bad health-condition tends to worsen on its own
     if(this.state.health <= 25) { 
       this.logCritical("Gotchi's condition ist getting very serious!");
-      this.increaseHealth(-4);
+      this.increaseHealth(-3);
     } else if(this.state.health <= 50) { 
       this.logWarning("Gotchi's illness got worse");
-      this.increaseHealth(-7);
+      this.increaseHealth(-5);
     } else if( this.getRandomInt(100) < 8 ) { // from time to time, illness happens randomly with 8% probability
       this.logCritical("OMG!! Gotchi got an illness");
       this.increaseHealth(-20 - this.getRandomInt(20)); // impact between 20 and 40
     } else {
-      this.increaseHealth(-5);
+      this.increaseHealth(3);
     }
   }
 
