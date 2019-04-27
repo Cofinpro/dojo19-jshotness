@@ -5,8 +5,8 @@ function Log (props) {
   const messages = props.messages.slice(0).reverse();
   const lines = messages.map((message) => 
     <li key={message.id}>
-      <span className="Log-time">({getTimeString(message.timestamp)})</span> 
-      {message.text}
+      <span className="Log-time">{getTimeString(message.timestamp)}</span> 
+      <span className={message.type}>{message.text}</span>
     </li>);
   
   return (

@@ -32,6 +32,10 @@ class Gotchi extends React.Component {
     return diffMillies/1000;
   }
 
+  getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+  }
+
   componentDidMount() {
     this.timerID5s = setInterval(
       () => this.timer5s(),
@@ -48,11 +52,18 @@ class Gotchi extends React.Component {
     clearInterval(this.timerID10s);
   }
 
-  logEvent(text) {
+  logInfo(text) { this.logEvent(text) }
+  logPositive(text) { this.logEvent(text, "positive") }
+  logNegative(text) { this.logEvent(text, "negative") }
+  logCritical(text) { this.logEvent(text, "critical") }
+
+  /** type: (informative|positive|negative|critical) */
+  logEvent(text, type = "informative") {
     this.setState(function (state) {
       const message = {
         id: state.messages.length,
         timestamp: new Date(),
+        type: type,
         text: text
       }
       return { messages: [...state.messages, message] }
@@ -62,34 +73,33 @@ class Gotchi extends React.Component {
   /* User Actions */ 
   applyMedicine = () => {
     if(this.secondsSince(this.state.lastTimeMedicine) < 5) {
-      this.logEvent("too much medicine is no good");
-      this.increaseHealth(-5);
+      this.logInfo("too much medicine is no good");
+      this.increaseHealth(-1);
       return;
     }
     this.setState((state) => ({ lastTimeMedicine: new Date() }));
 
-    this.logEvent("taking medicine");
+    this.logInfo("taking medicine");
     if (this.state.health >= 90) {
-      this.logEvent("healed fully");
+      this.logPositive("healed fully");
     }
-    this.increaseHealth(10);
+    this.increaseHealth(25);
   }
 
   feedApple = () => {
     if(this.secondsSince(this.state.lastTimeApple) < 10) {
-      this.logEvent("I JUST had an apple!!!!! :-(");
+      this.logNegative("I JUST had an apple!!!!! :-(");
       this.increaseMood(-10);
       return;
     }
     this.setState((state) => ({ lastTimeApple: new Date() }));
-    this.logEvent("An apple a day keeps the doctor away :-)");
+    this.logPositive("An apple a day keeps the doctor away :-)");
     this.increaseHunger(-2);
-    this.increaseSugar(1);
     this.increaseHealth(5);
   }
 
   feedCandy = () => {
-    this.logEvent("Candyyyyy... I LIKE!");
+    this.logPositive("Candyyyyy... I LIKE!");
     this.increaseHunger(-4);
     this.increaseSugar(5);
   }
@@ -103,11 +113,11 @@ class Gotchi extends React.Component {
   /* Timer Actions */ 
   timer5s() {
     this.increaseMood(-5); // mood reduces over time
+    this.increaseSugar(-1); // sugar in the blood reduces over time
     this.healthEffects(); // apply effects of bad health
   }
 
   timer10s() {
-    this.increaseSugar(-1); // sugar in the blood reduces over time
     this.increaseHunger(1); // hunger increases over time
     this.hungerEffects(); // apply effects when the gochi is hungry
     this.sugarEffects(); // apply effects when the gochi has a high sugar level
@@ -132,31 +142,31 @@ class Gotchi extends React.Component {
   healthEffects() {
     // bad health-condition tends to worsen on its own
     if(this.state.health <= 50) { 
-      this.logEvent("Gotchi's illness got worse");
+      this.logCritical("Gotchi's illness got worse");
       this.increaseHealth(-8);
     }
 
     // from time to time, illness happens randomly
-    if( Math.random() * 100 < 20 ) { // 20% probability
-      this.logEvent("OMG!! Gotchi got an illness");
-      this.increaseHealth(-40);
+    if( this.getRandomInt(100) < 15 ) { // 15% probability
+      this.logCritical("OMG!! Gotchi got an illness");
+      this.increaseHealth(-20 - this.getRandomInt(20)); // impact between 20 and 40
     }
   }
 
   sugarEffects() {
-    if (this.state.sugar >= 5) {
-      this.logEvent("Diabetes alert! Too much sugar is unhealthy");
-      this.increaseHealth(-15);
+    if (this.state.sugar >= 6) {
+      this.logCritical("Mind Diabetes! Too much sugar makes sick");
+      this.increaseHealth(-2 * this.state.sugar);
     }
   }
 
   hungerEffects() {
     if (this.state.hunger >= 7) {
-      this.logEvent("I'm starving, I don't feel so well!!");
+      this.logNegative("I'm starving, I don't feel so well!!");
       this.increaseHealth(-this.state.hunger);
       this.increaseMood(-this.state.hunger);
     } else if (this.state.hunger >= 4) {
-      this.logEvent("I'm hungry!");
+      this.logNegative("I'm hungry!");
       this.increaseMood(-this.state.hunger);
     }
   }
