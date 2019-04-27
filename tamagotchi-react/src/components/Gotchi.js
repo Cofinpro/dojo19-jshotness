@@ -174,10 +174,6 @@ class Gotchi extends React.Component {
     }
   }
 
-  gotchiDied() {
-    this.setState((state) => ({dead: true}))
-  }
-
 
   selectEmojiFace() {
     if (this.state.health === 0) {
