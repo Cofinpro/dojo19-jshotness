@@ -106,7 +106,7 @@ class Gotchi extends React.Component {
   }
 
   playVideoGames = () => {
-    this.logEvent("Fuuuuuuuuuun :D");
+    this.logPositive("Fuuuuuuuuuun :D");
     this.increaseMood(20);
   }
   
