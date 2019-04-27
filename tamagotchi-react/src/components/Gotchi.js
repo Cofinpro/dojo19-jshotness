@@ -7,6 +7,8 @@ import sick_thermo from '../emojis/sick_thermometer.png';
 import unhappy from '../emojis/unhappy.png';
 import dead from '../emojis/dead.png';
 import happy from '../emojis/happy.png';
+import angry from '../emojis/angry.png';
+import swearing from '../emojis/swearing.png';
 import './Gotchi.css';
 import { stat } from 'fs';
 
@@ -16,7 +18,7 @@ class Gotchi extends React.Component {
     this.state = {
       messages: [],
       age: 0, // starting from 0
-      mood: 50, // range: 100 (perfect) to 0 (maximum angry)
+      mood: 75, // range: 100 (perfect) to 0 (maximum angry)
       health: 70, // range: 100 (perfect) to 0 (dead)
       hunger: 9, // range: 0 to 10
       sugar: 0 // range: 0 to 10, ab 5 gesundheitsschädlich
@@ -70,6 +72,11 @@ class Gotchi extends React.Component {
     this.logEvent("Candyyyyy... I LIKE!");
     this.increaseHunger(-4);
     this.increaseSugar(5);
+  }
+
+  playVideoGames = () => {
+    this.logEvent("Fuuuuuuuuuun :D");
+    this.increaseMood(20);
   }
   
 
@@ -147,7 +154,13 @@ class Gotchi extends React.Component {
     if (this.state.health <= 60) {
       return unhappy;
     }
-    if (this.state.health > 85 && this.state.hunger < 3) {
+     if (this.state.mood <= 20) {
+      return swearing;
+    }
+    if (this.state.mood <= 40) {
+      return angry;
+    }
+    if (this.state.health >= 80 && this.state.hunger < 3 && this.state.mood >= 80) {
       return happy;
     }
     return smile;
@@ -166,6 +179,7 @@ class Gotchi extends React.Component {
           <HealButton applyMedicine={this.applyMedicine} />
           <FeedButton feedApple={this.feedApple} />
           <FeedCandyButton feedCandy={this.feedCandy} />
+          <PlayVideoGamesButton playVideoGames={this.playVideoGames}/>
         </div>
         <div className="Gotchi-box">
           <img src={this.selectEmojiFace()} alt="" className="Gotchi-face" />
@@ -199,6 +213,15 @@ class FeedCandyButton extends React.Component {
     return (
       <button onClick={
         () => this.props.feedCandy()}>feed candy 🍭</button>
+    )
+  }
+}
+
+class PlayVideoGamesButton extends React.Component {
+  render () {
+    return (
+      <button onClick={
+        () => this.props.playVideoGames()}>play video games 🎮</button>
     )
   }
 }
