@@ -1,0 +1,12 @@
+
+.Gotchi-face {
+  animation: Gotchi-face-wiggle infinite 2s ease-in-out;
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@keyframes Gotchi-face-wiggle {
+  0% {  transform: rotate(20deg); }
+  50% {  transform: rotate(-20deg); }
+  100% {  transform: rotate(20deg); }
+}

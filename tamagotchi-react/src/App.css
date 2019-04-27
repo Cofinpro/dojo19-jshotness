@@ -2,22 +2,6 @@
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-wiggle infinite 2s ease-in-out;
-  /*position: relative;
-  animation: myfirst 5s 2;*/
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@keyframes myfirst {
-  0%   { left: 0px; top: 0px;}
-  25%  {left: 200px; top: 0px;}
-  50%  {left: 200px; top: 200px;}
-  75%  {left: 0px; top: 200px;}
-  100% {left: 0px; top: 0px;}
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -31,10 +15,4 @@
 
 .App-link {
   color: #61dafb;
-}
-
-@keyframes App-logo-wiggle {
-  0% {  transform: rotate(20deg); }
-  50% {  transform: rotate(-20deg); }
-  100% {  transform: rotate(20deg); }
 }
