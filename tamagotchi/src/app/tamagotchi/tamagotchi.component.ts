@@ -31,9 +31,7 @@ export class TamagotchiComponent implements OnInit, OnChanges {
     return this.tamagotchi.getStatus();
 
   }
-  changeGif(): void {
-    this.tama.status = TamagotchiStatus.DANCE;
-
-
+  reload(): void {
+    this.tamagotchi.fullStatus();
   }
 }

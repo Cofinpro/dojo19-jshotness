@@ -19,4 +19,11 @@ export class TamagotchiService {
   getTamagotchi(): Tamagotchi {
     return this.tama;
   }
+
+  fullStatus(){
+    this.tama.satisfaction_cuddle =100;
+    this.tama.saturation =100;
+    this.tama.satisfaction_love =100;
+    this.tama.alive=true;
+  }
 }
