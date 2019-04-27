@@ -55,6 +55,7 @@ class Gotchi extends React.Component {
   logInfo(text) { this.logEvent(text) }
   logPositive(text) { this.logEvent(text, "positive") }
   logNegative(text) { this.logEvent(text, "negative") }
+  logWarning(text) { this.logEvent(text, "warning") }
   logCritical(text) { this.logEvent(text, "critical") }
 
   /** type: (informative|positive|negative|critical) */
@@ -83,7 +84,7 @@ class Gotchi extends React.Component {
     if (this.state.health >= 90) {
       this.logPositive("healed fully");
     }
-    this.increaseHealth(25);
+    this.increaseHealth(30);
   }
 
   feedApple = () => {
@@ -141,13 +142,13 @@ class Gotchi extends React.Component {
 
   healthEffects() {
     // bad health-condition tends to worsen on its own
-    if(this.state.health <= 50) { 
-      this.logCritical("Gotchi's illness got worse");
+    if(this.state.health <= 25) { 
+      this.logCritical("Gotchi's condition ist getting very serious!");
+      this.increaseHealth(-5);
+    } else if(this.state.health <= 50) { 
+      this.logWarning("Gotchi's illness got worse");
       this.increaseHealth(-8);
-    }
-
-    // from time to time, illness happens randomly
-    if( this.getRandomInt(100) < 15 ) { // 15% probability
+    } else if( this.getRandomInt(100) < 15 ) { // from time to time, illness happens randomly with 15% probability
       this.logCritical("OMG!! Gotchi got an illness");
       this.increaseHealth(-20 - this.getRandomInt(20)); // impact between 20 and 40
     }
@@ -155,7 +156,7 @@ class Gotchi extends React.Component {
 
   sugarEffects() {
     if (this.state.sugar >= 6) {
-      this.logCritical("Mind Diabetes! Too much sugar makes sick");
+      this.logWarning("Mind Diabetes! Too much sugar makes sick");
       this.increaseHealth(-2 * this.state.sugar);
     }
   }
