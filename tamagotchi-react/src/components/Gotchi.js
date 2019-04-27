@@ -28,6 +28,7 @@ class Gotchi extends React.Component {
       emojiAclass: "fadein",
       emojiBclass: "fadein",
       emojiAactive: false,
+      lastTimeGaming: new Date(0),
       dead: false
     };
   }
@@ -42,17 +43,17 @@ class Gotchi extends React.Component {
   }
 
   componentDidMount() {
-    this.timerID5s = setInterval(
-      () => this.timer5s(),
-      5000
-    );
-    this.timerID10s = setInterval(
-      () => this.timer10s(),
-      10000
-    );
+    this.timerID1s = setInterval( () => this.timer1s(), 1000 );
+    this.timerID5s = setInterval( () => this.timer5s(), 5000 );
+    this.timerID10s = setInterval( () => this.timer10s(), 10000 );
   }
 
   componentWillUnmount() {
+    this.stopTimers();
+  }
+
+  stopTimers() {
+    clearInterval(this.timerID1s);
     clearInterval(this.timerID5s);
     clearInterval(this.timerID10s);
   }
@@ -115,12 +116,22 @@ class Gotchi extends React.Component {
   }
 
   playVideoGames = () => {
+    if(this.secondsSince(this.state.lastTimeGaming) < 3) {
+      this.logWarning("Gotchi deserves a break, don't you think?")
+      return;
+    }
+    this.setState((state) => ({ lastTimeGaming: new Date() }));
+
     this.logPositive("Let's play! Fuuuuuuuuuun :D");
     this.increaseMood(20);
   }
   
 
   /* Timer Actions */ 
+  timer1s() {
+    this.checkIfDead(); // stop everything if dead
+  }
+
   timer5s() {
     this.increaseMood(-10); // mood reduces over time
     this.increaseSugar(-1); // sugar in the blood reduces over time
@@ -139,11 +150,6 @@ class Gotchi extends React.Component {
 
   increaseHealth(increment) {
     this.setState((state) => ({ health: Math.max(0, Math.min(100, state.health + increment))}));
-    if (this.state.health === 0) { 
-      this.setState(() => ({dead: true}));
-     this.componentWillUnmount();
-     this.logCritical("Gotchi died 😭😭😭 This is a sad day! ⚱️")
-    }
   }
 
   increaseHunger(increment) {
@@ -152,6 +158,14 @@ class Gotchi extends React.Component {
 
   increaseSugar(increment) {
     this.setState((state) => ({ sugar: Math.max(0, Math.min(10, state.sugar + increment)) }));
+  }
+
+  checkIfDead() {
+    if (this.state.health === 0) { 
+      this.stopTimers();
+      this.logCritical("Gotchi died 😭😭😭 This is a sad day! ⚱️")
+      this.setState(() => ({dead: true}));
+    }
   }
 
   healthEffects() {
@@ -201,14 +215,14 @@ class Gotchi extends React.Component {
     if (this.state.health <= 60) {
       return unhappy;
     }
-     if (this.state.mood <= 20) {
+     if (this.state.mood <= 20 || this.state.hunger > 8) {
       return swearing;
     }
-    if (this.state.mood <= 40) {
+    if (this.state.mood <= 40 || this.state.hunger > 6) {
       return angry;
     }
-    if (this.state.health >= 80 && this.state.hunger < 3 && this.state.mood >= 80) {
-      return happy;
+    if (this.state.mood <= 80 || this.state.hunger > 2) {
+      return smile;
     }
     return smile;
   }
@@ -223,7 +237,18 @@ class Gotchi extends React.Component {
     const newEmoji = this.determineEmojiFace();
     super.setState(function (state) { 
       const currentEmoji = state.emojiAactive ? state.emojiA : state.emojiB;
-      if(currentEmoji == newEmoji) { return };
+      if( currentEmoji == newEmoji ) { return };
+
+      if( newEmoji == dead ) {
+        return {
+          emojiAclass: state.emojiAactive ? "fadeout" : "fadein stop-animation",
+          emojiBclass: state.emojiAactive ? "fadein stop-animation" : "fadeout",
+          emojiA: state.emojiAactive ? state.emojiA : newEmoji,
+          emojiB: state.emojiAactive ? newEmoji : state.emojiB, 
+          emojiAactive: !state.emojiAactive 
+        };
+      }
+
       // change active emoji, fade one in and the other out
       return {
         emojiAclass: state.emojiAactive ? "fadeout" : "fadein",

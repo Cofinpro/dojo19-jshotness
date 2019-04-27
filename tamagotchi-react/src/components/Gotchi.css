@@ -27,8 +27,7 @@
   overflow: hidden;
 }
 
-.Gotchi-face-alive{
-  animation: Gotchi-face-wiggle infinite 2s ease-in-out;
+.Gotchi-face{
   height: 40vmin;
   pointer-events: none;
 }
@@ -41,6 +40,10 @@
 .Gotchi-face.fadein {
   animation: Gotchi-face-wiggle infinite 2s ease-in-out, Gotchi-face-fadein 1 1s ease-in-out;
   opacity: 1;
+}
+
+.Gotchi-face.stop-animation {
+  animation: none !important;
 }
 
 @keyframes Gotchi-face-fadeout {
