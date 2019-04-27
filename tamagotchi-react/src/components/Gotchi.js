@@ -30,7 +30,7 @@ class Gotchi extends React.Component {
   render() {
     return (
       <div>
-        <img src={smile} className="Gotchi-face"/>
+        <img src={smile} alt="" className="Gotchi-face"/>
         <h6>Age: {this.state.age} | Mood: {this.state.mood} | Health: {this.state.health}</h6>
       </div>
     );
