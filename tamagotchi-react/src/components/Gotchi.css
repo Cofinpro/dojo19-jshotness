@@ -9,8 +9,15 @@
 }
 
 .Gotchi-box {
+  position: relative;
   flex: 0 0 auto; 
-  width: 500px;
+  width: 400px;
+}
+
+.Gotchi-box img {
+  position: absolute;
+  left: 50px;
+  top: 0;
 }
 
 .Gotchi-log {
@@ -24,6 +31,26 @@
   animation: Gotchi-face-wiggle infinite 2s ease-in-out;
   height: 40vmin;
   pointer-events: none;
+}
+
+.Gotchi-face.fadeout {
+  animation: Gotchi-face-wiggle infinite 2s ease-in-out, Gotchi-face-fadeout 1 1s ease-in-out;
+  opacity: 0;
+}
+
+.Gotchi-face.fadein {
+  animation: Gotchi-face-wiggle infinite 2s ease-in-out, Gotchi-face-fadein 1 1s ease-in-out;
+  opacity: 1;
+}
+
+@keyframes Gotchi-face-fadeout {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes Gotchi-face-fadein {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 .Gotchi-button {

@@ -23,6 +23,11 @@ class Gotchi extends React.Component {
       sugar: 0, // range: 0 to 10, ab 5 gesundheitsschädlich
       lastTimeMedicine: new Date(0),
       lastTimeApple: new Date(0),
+      emojiA: smile,
+      emojiB: smile,
+      emojiAclass: "fadein",
+      emojiBclass: "fadein",
+      emojiAactive: false,
       dead: false
     };
   }
@@ -181,8 +186,7 @@ class Gotchi extends React.Component {
     }
   }
 
-
-  selectEmojiFace() {
+  determineEmojiFace() {
     if (this.state.health === 0) {
       return dead;
     }
@@ -207,6 +211,27 @@ class Gotchi extends React.Component {
     return smile;
   }
 
+  setState(state, callback) {
+    super.setState(state, callback);
+    this.updateEmoji();
+  }
+
+  /** call whenever some changes are made to the status */
+  updateEmoji() {
+    const newEmoji = this.determineEmojiFace();
+    super.setState(function (state) { 
+      const currentEmoji = state.emojiAactive ? state.emojiA : state.emojiB;
+      if(currentEmoji == newEmoji) { return };
+      // change active emoji, fade one in and the other out
+      return {
+        emojiAclass: state.emojiAactive ? "fadeout" : "fadein",
+        emojiBclass: state.emojiAactive ? "fadein" : "fadeout",
+        emojiA: state.emojiAactive ? state.emojiA : newEmoji,
+        emojiB: state.emojiAactive ? newEmoji : state.emojiB, 
+        emojiAactive: !state.emojiAactive 
+      };
+    });
+  }
 
   render() {
     return (
@@ -224,7 +249,8 @@ class Gotchi extends React.Component {
           <PlayVideoGamesButton playVideoGames={this.playVideoGames} dead={this.state.dead}/>
         </div>
         <div className="Gotchi-box">
-          <img src={this.selectEmojiFace()} alt="" className="Gotchi-face" />
+          <img src={this.state.emojiA} alt="" className={"Gotchi-face " + this.state.emojiAclass} />
+          <img src={this.state.emojiB} alt="" className={"Gotchi-face " + this.state.emojiBclass} />
         </div>
         <Log messages={this.state.messages} className="Gotchi-log" />
       </div>
