@@ -4,6 +4,7 @@ import sick_puke from '../emojis/sick_puke.png';
 import sick_green from '../emojis/sick_green.png';
 import sick_thermo from '../emojis/sick_thermometer.png';
 import './Gotchi.css';
+import { stat } from 'fs';
 
 
 
@@ -14,7 +15,8 @@ class Gotchi extends React.Component {
       age: 0, // starting from 0
       mood: 0, // range: -5 to 5
       health: 45, // 100 (perfect) to 0 (dead)
-      hunger: 9 //range: 0 - 10
+      hunger: 9, //range: 0 - 10
+      sugar: 0 //range 0 -10, ab 5 gesundheitsschädlich
     };
   }
 
@@ -50,8 +52,12 @@ class Gotchi extends React.Component {
 
   feedApple = () => {
     if(this.state.hunger < 100) {
-      this.setState((state) => ({hunger: state.hunger - 3}))
+      this.setState((state) => ({hunger: state.hunger - 3, sugar: state.sugar +1}));
     }
+  }
+
+  feedCandy = () => {
+    this.setState((state) => ({sugar: state.sugar +3, hunger: state.hunger -1}));
   }
 
   tickMood(value) {
@@ -69,6 +75,15 @@ class Gotchi extends React.Component {
       });
     } else {
       this.hungerEffects();
+    }
+  }
+
+  tickSugar() {
+    if (this.state.sugar > 0) {
+      this.setState((state) => ({sugar: state.sugar -1}));
+    }
+    if (this.state.sugar >= 5) {
+      this.setState((state) => ({health: state.health - 5}));
     }
   }
 
@@ -100,9 +115,10 @@ class Gotchi extends React.Component {
     return (
       <div>
         <img src={this.selectEmojiFace()} alt="" className="Gotchi-face"/>
-        <h6>Age: {this.state.age} | Mood: {this.state.mood} | Health: {this.state.health} | Hunger: {this.state.hunger}</h6> 
+        <h6>Age: {this.state.age} | Mood: {this.state.mood} | Health: {this.state.health} | Hunger: {this.state.hunger} | Sugar: {this.state.sugar}</h6> 
         <HealButton applyMedicine={this.applyMedicine}/>
         <FeedButton feedApple={this.feedApple}></FeedButton>
+        <FeedCandyButton feedCandy={this.feedCandy}></FeedCandyButton>
       </div>
 
     
@@ -126,6 +142,15 @@ class HealButton extends React.Component  {
         <button onClick = {
           () => this.props.feedApple()}>feed apple 🍎</button>
       );
+    }
+  }
+
+  class FeedCandyButton extends React.Component {
+    render() {
+      return (
+        <button onClick = {
+          () => this.props.feedCandy()}>feed candy 🍭</button>
+      )
     }
   }
 
