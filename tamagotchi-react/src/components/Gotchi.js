@@ -14,7 +14,7 @@ class Gotchi extends React.Component {
       messages: [],
       age: 0, // starting from 0
       mood: 50, // range: 100 (perfect) to 0 (maximum angry)
-      health: 45, // range: 100 (perfect) to 0 (dead)
+      health: 70, // range: 100 (perfect) to 0 (dead)
       hunger: 9, // range: 0 to 10
       sugar: 0 // range: 0 to 10, ab 5 gesundheitsschädlich
     };
@@ -57,15 +57,18 @@ class Gotchi extends React.Component {
   }
 
   feedApple = () => {
+    this.logEvent("An apple a day keeps the doctor away :-)");
     this.increaseHunger(-2);
     this.increaseSugar(1);
+    this.increaseHealth(5);
   }
 
   feedCandy = () => {
+    this.logEvent("Candyyyyy... I LIKE!");
     this.increaseHunger(-4);
     this.increaseSugar(5);
   }
-
+  
 
   /* Timer Actions */ 
   timer5s() {
@@ -97,23 +100,34 @@ class Gotchi extends React.Component {
   }
 
   healthEffects() {
+    // bad health-condition tends to worsen on its own
     if(this.state.health <= 50) { 
+      this.logEvent("Gotchi's illness got worse");
       this.increaseHealth(-8);
+    }
+
+    // from time to time, illness happens randomly
+    if( Math.random() * 100 < 20 ) { // 20% probability
+      this.logEvent("OMG!! Gotchi got an illness");
+      this.increaseHealth(-40);
     }
   }
 
   sugarEffects() {
     if (this.state.sugar >= 5) {
+      this.logEvent("Diabetes alert! Too much sugar is unhealthy");
       this.increaseHealth(-15);
     }
   }
 
   hungerEffects() {
-    if (this.state.hunger >= 4) {
-      this.increaseMood(-this.state.hunger);
-    }
     if (this.state.hunger >= 7) {
+      this.logEvent("I'm starving, I don't feel so well!!");
       this.increaseHealth(-this.state.hunger);
+      this.increaseMood(-this.state.hunger);
+    } else if (this.state.hunger >= 4) {
+      this.logEvent("I'm hungry!");
+      this.increaseMood(-this.state.hunger);
     }
   }
 
