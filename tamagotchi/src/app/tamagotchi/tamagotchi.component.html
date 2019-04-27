@@ -1,29 +1,23 @@
-<h3> Hier steht das Tamagotchi!!!!! </h3>
+<div class="container content">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4" style="font-size: 20px;">Status: {{tama.status.name}}</div>
+        <div class="col-md-4"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">Kuscheln: {{tama.satisfaction_cuddle}}</div>
+        <div class="col-md-4">Spielen: {{tama.satisfaction_love}}</div>
+        <div class="col-md-4">Füttern: {{tama.saturation}}</div>
+    </div>
+
+</div>
 <div>
-
-    <ul>
-        <li>
-            Status: {{tama.status.name}}
-        </li>
-        <li>
-            Cuddle: {{tama.satisfaction_cuddle}}
-        </li>
-        <li>
-            Love: {{tama.satisfaction_love}}
-        </li>
-        <li>
-            Hunger: {{tama.saturation}}
-        </li>
-    </ul>
-
-
-    <img [src]="tama.status.path" />
-
-    <app-ui-feed></app-ui-feed>
-
-    <app-ui-play></app-ui-play>
-
-    <app-ui-cuddle></app-ui-cuddle>
-    <button (click)="reload()">Kuss geben</button>
-
+    <img style="width: 230px; height: 230px; margin: 20px; background-color: white;" [src]="tama.status.path" />
+    <div class="buttons">
+        <app-ui-feed></app-ui-feed>
+        <app-ui-play></app-ui-play>
+        <app-ui-cuddle></app-ui-cuddle>
+    </div>
+    <button class="myButton" (click)="reload()">Kuss geben</button>
 </div>
