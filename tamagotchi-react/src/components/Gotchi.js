@@ -46,11 +46,16 @@ class Gotchi extends React.Component {
       () => this.timer10s(),
       10000
     );
+    this.timerID60s = setInterval(
+      () => this.timer60s(),
+      60000
+    );
   }
 
   componentWillUnmount() {
     clearInterval(this.timerID5s);
     clearInterval(this.timerID10s);
+    clearInterval(this.timerID60s);
   }
 
   logInfo(text) { this.logEvent(text) }
@@ -135,6 +140,10 @@ class Gotchi extends React.Component {
     this.sugarEffects(); // apply effects when the gochi has a high sugar level
   }
 
+  timer60s() {
+    this.increaseAge(); //every minute age goes one up
+  }
+
   increaseMood(increment) {
     this.setState((state) => ({ mood: Math.max(0, Math.min(100, state.mood + increment)) }));
   }
@@ -154,6 +163,10 @@ class Gotchi extends React.Component {
 
   increaseSugar(increment) {
     this.setState((state) => ({ sugar: Math.max(0, Math.min(10, state.sugar + increment)) }));
+  }
+
+  increaseAge() {
+    this.setState((state) => ({age: state.age + 1}));
   }
 
   healthEffects() {
