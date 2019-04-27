@@ -1,3 +1,24 @@
+.Gotchi-frame {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.Gotchi-status {
+  flex: 1 0 auto;
+}
+
+.Gotchi-box {
+  flex: 0 0 auto; 
+  width: 500px;
+}
+
+.Gotchi-log {
+  flex: 1 0 auto;
+  width: 500px;
+  height: 500px;
+  overflow: hidden;
+}
 
 .Gotchi-face {
   animation: Gotchi-face-wiggle infinite 2s ease-in-out;

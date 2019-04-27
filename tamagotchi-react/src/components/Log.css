@@ -1,0 +1,17 @@
+.Log-container {
+  text-align: left;
+  overflow: hidden;
+}
+
+.Log-message-list {
+  font-size: x-small;
+  list-style: none;
+  padding-left: 0;
+}
+
+.Log-time {
+  color: dimgray;
+  font-size: x-small;
+  display: inline-block;
+  width: 60px;
+}
