@@ -7,8 +7,6 @@ import sick_thermo from '../emojis/sick_thermometer.png';
 import './Gotchi.css';
 import { stat } from 'fs';
 
-
-
 class Gotchi extends React.Component {
   constructor(props) {
     super(props);
@@ -32,7 +30,7 @@ class Gotchi extends React.Component {
       250000
     );
     this.timerHunger = setInterval(
-      () => this.tickHunger(), 
+      () => this.tickHunger(),
       8000
     );
   }
@@ -42,51 +40,51 @@ class Gotchi extends React.Component {
   }
 
   addEvent(text) {
-    this.setState(function (state) { 
+    this.setState(function (state) {
       const message = {
         id: state.messages.length,
         timestamp: new Date(),
         text: text
       }
-      return {messages: [...state.messages, message]}
+      return { messages: [...state.messages, message] }
     });
   }
 
   applyMedicine = () => {
 
-    if(this.state.health < 100){
-      this.setState((state) => ({health: state.health + 10}));
+    if (this.state.health < 100) {
+      this.setState((state) => ({ health: state.health + 10 }));
       this.addEvent("healing a little");
     }
-    if(this.state.health === 95){
-      this.setState((state) => ({health: 100}))
+    if (this.state.health === 95) {
+      this.setState((state) => ({ health: 100 }))
       this.addEvent("healed fully");
     }
-    
+
   }
 
   feedApple = () => {
-    if(this.state.hunger < 100) {
-      this.setState((state) => ({hunger: state.hunger - 3, sugar: state.sugar +1}));
+    if (this.state.hunger < 100) {
+      this.setState((state) => ({ hunger: state.hunger - 3, sugar: state.sugar + 1 }));
     }
   }
 
   feedCandy = () => {
-    this.setState((state) => ({sugar: state.sugar +3, hunger: state.hunger -1}));
+    this.setState((state) => ({ sugar: state.sugar + 3, hunger: state.hunger - 1 }));
   }
 
   tickMood(value) {
-    this.setState((state) => ({mood: state.mood - value}));
+    this.setState((state) => ({ mood: state.mood - value }));
   }
 
   tickHealth(value) {
-    this.setState((state) => ({health: state.health - value}));
+    this.setState((state) => ({ health: state.health - value }));
   }
 
   tickHunger() {
-    if (this.state.hunger < 10 ) {
-      this.setState((state) => ({hunger: state.hunger + 1}), () => {
-       this.hungerEffects()
+    if (this.state.hunger < 10) {
+      this.setState((state) => ({ hunger: state.hunger + 1 }), () => {
+        this.hungerEffects()
       });
     } else {
       this.hungerEffects();
@@ -95,31 +93,31 @@ class Gotchi extends React.Component {
 
   tickSugar() {
     if (this.state.sugar > 0) {
-      this.setState((state) => ({sugar: state.sugar -1}));
+      this.setState((state) => ({ sugar: state.sugar - 1 }));
     }
     if (this.state.sugar >= 5) {
-      this.setState((state) => ({health: state.health - 5}));
+      this.setState((state) => ({ health: state.health - 5 }));
     }
   }
 
   hungerEffects() {
-    if(this.state.hunger >= 4){
+    if (this.state.hunger >= 4) {
       this.tickMood(this.state.hunger);
     }
-    if(this.state.hunger >= 7) {
+    if (this.state.hunger >= 7) {
       this.tickHealth(this.state.hunger);
     }
   }
 
-  selectEmojiFace(){
+  selectEmojiFace() {
 
-    if(this.state.health <= 30) {
+    if (this.state.health <= 30) {
       return sick_puke;
     }
-    if(this.state.health <= 50) {
+    if (this.state.health <= 50) {
       return sick_thermo;
     }
-    if(this.state.health < 60){
+    if (this.state.health < 60) {
       return sick_green;
     }
     return smile;
@@ -140,40 +138,39 @@ class Gotchi extends React.Component {
           <FeedCandyButton feedCandy={this.feedCandy} />
         </div>
         <div className="Gotchi-box">
-          <img src={this.selectEmojiFace()} alt="" className="Gotchi-face"/>
+          <img src={this.selectEmojiFace()} alt="" className="Gotchi-face" />
         </div>
         <Log messages={this.state.messages} className="Gotchi-log" />
       </div>
     );
   }
 }
-class HealButton extends React.Component  {
-  
-    render() {
-      return (
+
+class HealButton extends React.Component {
+  render() {
+    return (
       <button onClick=
-      {() => this.props.applyMedicine()}>give medicine 💊</button>
+        {() => this.props.applyMedicine()}>give medicine 💊</button>
     );
-    }
-    
   }
+}
 
-  class FeedButton extends React.Component {
-    render() {
-      return (
-        <button onClick = {
-          () => this.props.feedApple()}>feed apple 🍎</button>
-      );
-    }
+class FeedButton extends React.Component {
+  render() {
+    return (
+      <button onClick={
+        () => this.props.feedApple()}>feed apple 🍎</button>
+    );
   }
+}
 
-  class FeedCandyButton extends React.Component {
-    render() {
-      return (
-        <button onClick = {
-          () => this.props.feedCandy()}>feed candy 🍭</button>
-      )
-    }
+class FeedCandyButton extends React.Component {
+  render() {
+    return (
+      <button onClick={
+        () => this.props.feedCandy()}>feed candy 🍭</button>
+    )
   }
+}
 
 export default Gotchi;
