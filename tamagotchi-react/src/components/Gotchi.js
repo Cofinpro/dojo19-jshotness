@@ -4,6 +4,9 @@ import smile from '../emojis/smile.png';
 import sick_puke from '../emojis/sick_puke.png';
 import sick_green from '../emojis/sick_green.png';
 import sick_thermo from '../emojis/sick_thermometer.png';
+import unhappy from '../emojis/unhappy.png';
+import dead from '../emojis/dead.png';
+import happy from '../emojis/happy.png';
 import './Gotchi.css';
 import { stat } from 'fs';
 
@@ -132,6 +135,9 @@ class Gotchi extends React.Component {
   }
 
   selectEmojiFace() {
+    if (this.state.health === 0) {
+      return dead;
+    }
     if (this.state.health <= 30) {
       return sick_puke;
     }
@@ -139,7 +145,10 @@ class Gotchi extends React.Component {
       return sick_thermo;
     }
     if (this.state.health <= 60) {
-      return sick_green;
+      return unhappy;
+    }
+    if (this.state.health > 85 && this.state.hunger < 3) {
+      return happy;
     }
     return smile;
   }
