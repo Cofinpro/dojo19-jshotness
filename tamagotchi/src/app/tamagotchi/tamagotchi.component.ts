@@ -1,25 +1,25 @@
 import {Component, OnInit} from '@angular/core';
 import {Tamagotchi} from "../models/tamagotchi";
 import {TamagotchiStatus} from "../models/TamagotchiStatus";
+import { TamagotchiService } from '../services/tamagotchi.service';
 
 @Component({
   selector: 'app-tamagotchi',
   templateUrl: './tamagotchi.component.html',
   styleUrls: ['./tamagotchi.component.css']
 })
+
 export class TamagotchiComponent implements OnInit {
 
-  constructor() { }
+  public tama;
 
-  tama: Tamagotchi = {
-    saturation : 45,
-    satisfaction_cuddle : 60, satisfaction_love : 30, status :TamagotchiStatus.Happy};
+  constructor(private tamagotchi :TamagotchiService) { }
 
-  getStatusEnumName() : string {
-    return TamagotchiStatus[this.tama.status];
+  ngOnInit(): void {
+    this.tama = this.tamagotchi.getTamagotchi();
   }
 
-  ngOnInit() {
+  getStatus(){
+    return this.tamagotchi.getStatus();
   }
-
 }

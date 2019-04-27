@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Host } from '@angular/core';
+import { AppComponent } from '../app.component';
+import { FeedService } from '../services/feed.service';
+//import {TamagotchiComponent} form '../tamagotchi/tamagotchi.component';
 
 @Component({
   selector: 'app-ui-feed',
@@ -7,9 +10,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UiFeedComponent implements OnInit {
 
-  constructor() { }
+  constructor( @Host() private parent: AppComponent, private feedservice : FeedService) { }
 
   ngOnInit() {
   }
 
-}
+  feed_click() {
+    console.log("geklickt");
+    this.feedservice.increaseTamaSaturation();
+    }
+  }
+
+
