@@ -23,6 +23,7 @@ class Gotchi extends React.Component {
       sugar: 0, // range: 0 to 10, ab 5 gesundheitsschädlich
       lastTimeMedicine: new Date(0),
       lastTimeApple: new Date(0),
+      lastTimeGaming: new Date(0),
       dead: false
     };
   }
@@ -110,6 +111,12 @@ class Gotchi extends React.Component {
   }
 
   playVideoGames = () => {
+    if(this.secondsSince(this.state.lastTimeGaming) < 5) {
+      this.logWarning("Gotchi deserves a break, don't you think?")
+      return;
+    }
+    this.setState((state) => ({ lastTimeGaming: new Date() }));
+
     this.logPositive("Let's play! Fuuuuuuuuuun :D");
     this.increaseMood(20);
   }
