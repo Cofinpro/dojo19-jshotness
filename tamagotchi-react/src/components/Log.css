@@ -4,7 +4,6 @@
 }
 
 .Log-message-list {
-  font-size: x-small;
   list-style: none;
   padding-left: 0;
 }
@@ -13,5 +12,28 @@
   color: dimgray;
   font-size: x-small;
   display: inline-block;
-  width: 60px;
+  width: 50px;
+}
+
+.Log-message-list .critical {
+  color: crimson;
+  font-weight: bold;
+  font-size: medium;
+}
+
+.Log-message-list .positive {
+  color: green;
+  font-weight: bold;
+  font-size: small;
+}
+
+.Log-message-list .negative {
+  color: chocolate;
+  font-weight: bold;
+  font-size: small;
+}
+
+.Log-message-list .informative {
+  color: white;
+  font-size: x-small;
 }
