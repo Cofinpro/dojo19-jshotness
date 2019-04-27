@@ -2,7 +2,6 @@ import React from 'react';
 import Log from './Log.js';
 import smile from '../emojis/smile.png';
 import sick_puke from '../emojis/sick_puke.png';
-import sick_green from '../emojis/sick_green.png';
 import sick_thermo from '../emojis/sick_thermometer.png';
 import unhappy from '../emojis/unhappy.png';
 import dead from '../emojis/dead.png';
@@ -23,7 +22,8 @@ class Gotchi extends React.Component {
       hunger: 9, // range: 0 to 10
       sugar: 0, // range: 0 to 10, ab 5 gesundheitsschädlich
       lastTimeMedicine: new Date(0),
-      lastTimeApple: new Date(0)
+      lastTimeApple: new Date(0),
+      dead: false
     };
   }
 
@@ -72,7 +72,7 @@ class Gotchi extends React.Component {
 
   /* User Actions */ 
   applyMedicine = () => {
-    if(this.secondsSince(this.state.lastTimeMedicine) < 5) {
+    if(this.secondsSince(this.state.lastTimeMedicine) < 3) {
       this.logInfo("too much medicine is no good");
       this.increaseHealth(-1);
       return;
@@ -105,7 +105,7 @@ class Gotchi extends React.Component {
   }
 
   playVideoGames = () => {
-    this.logEvent("Fuuuuuuuuuun :D");
+    this.logPositive("Let's play! Fuuuuuuuuuun :D");
     this.increaseMood(20);
   }
   
@@ -128,7 +128,10 @@ class Gotchi extends React.Component {
   }
 
   increaseHealth(increment) {
-    this.setState((state) => ({ health: Math.max(0, Math.min(100, state.health + increment)) }));
+    this.setState((state) => ({ health: Math.max(0, Math.min(100, state.health + increment))}));
+    if (this.state.health === 0) { 
+      this.setState((state) => ({dead: true}));
+    }
   }
 
   increaseHunger(increment) {
@@ -171,6 +174,11 @@ class Gotchi extends React.Component {
     }
   }
 
+  gotchiDied() {
+    this.setState((state) => ({dead: true}))
+  }
+
+
   selectEmojiFace() {
     if (this.state.health === 0) {
       return dead;
@@ -206,10 +214,11 @@ class Gotchi extends React.Component {
           <h6>Health: {this.state.health}</h6>
           <h6>Hunger: {this.state.hunger}</h6>
           <h6>Sugar: {this.state.sugar}</h6>
-          <HealButton applyMedicine={this.applyMedicine} />
-          <FeedButton feedApple={this.feedApple} />
-          <FeedCandyButton feedCandy={this.feedCandy} />
-          <PlayVideoGamesButton playVideoGames={this.playVideoGames}/>
+          <FeedButton feedApple={this.feedApple} dead={this.state.dead}/>
+          <FeedCandyButton feedCandy={this.feedCandy} dead={this.state.dead}/>
+          <br/>
+          <HealButton applyMedicine={this.applyMedicine} dead={this.state.dead} /> 
+          <PlayVideoGamesButton playVideoGames={this.playVideoGames} dead={this.state.dead}/>
         </div>
         <div className="Gotchi-box">
           <img src={this.selectEmojiFace()} alt="" className="Gotchi-face" />
@@ -223,8 +232,10 @@ class Gotchi extends React.Component {
 class HealButton extends React.Component {
   render() {
     return (
-      <button onClick=
-        {() => this.props.applyMedicine()}>give medicine 💊</button>
+      <button className="Gotchi-button" 
+      onClick={() => this.props.applyMedicine()}
+      disabled={this.props.dead}
+      > 💊</button>
     );
   }
 }
@@ -232,8 +243,9 @@ class HealButton extends React.Component {
 class FeedButton extends React.Component {
   render() {
     return (
-      <button onClick={
-        () => this.props.feedApple()}>feed apple 🍎</button>
+      <button className="Gotchi-button" onClick={
+        () => this.props.feedApple()}
+        disabled={this.props.dead}> 🍎</button>
     );
   }
 }
@@ -241,8 +253,8 @@ class FeedButton extends React.Component {
 class FeedCandyButton extends React.Component {
   render() {
     return (
-      <button onClick={
-        () => this.props.feedCandy()}>feed candy 🍭</button>
+      <button className="Gotchi-button" onClick={
+        () => this.props.feedCandy()} disabled={this.props.dead}> 🍭</button>
     )
   }
 }
@@ -250,8 +262,8 @@ class FeedCandyButton extends React.Component {
 class PlayVideoGamesButton extends React.Component {
   render () {
     return (
-      <button onClick={
-        () => this.props.playVideoGames()}>play video games 🎮</button>
+      <button className="Gotchi-button" onClick={
+        () => this.props.playVideoGames()} disabled={this.props.dead}> 🎮</button>
     )
   }
 }

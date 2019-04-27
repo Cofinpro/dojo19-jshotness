@@ -26,6 +26,14 @@
   pointer-events: none;
 }
 
+.Gotchi-button {
+  font-size: 24px;
+  border-radius: 8px;
+  margin: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
 @keyframes Gotchi-face-wiggle {
   0% {  transform: rotate(20deg); }
   50% {  transform: rotate(-20deg); }

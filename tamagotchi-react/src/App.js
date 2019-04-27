@@ -7,7 +7,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>Welcome to your interactive Tamagotchi</h1>
-        <h2>Take care and keep it in good mood and health</h2>
+        <h2>Take care of it and keep it in good mood and health</h2>
         <Gotchi />
       </header>
     </div>
