@@ -15,9 +15,9 @@ export class TamagotchiTimerService {
 
   }
 tick(tamagotchi : Tamagotchi){
-  tamagotchi.saturation-=10;
-  tamagotchi.satisfaction_cuddle-=12;
-  tamagotchi.satisfaction_love-=11;
+  tamagotchi.saturation-=3;
+  tamagotchi.satisfaction_cuddle-=3;
+  tamagotchi.satisfaction_love-=3;
   tamagotchi.updateStatus();
   tamagotchi.validate();
 }

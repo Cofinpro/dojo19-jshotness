@@ -16,7 +16,7 @@ export class UiFeedComponent implements OnInit {
   }
 
   feed_click() {
-    console.log("geklickt");
+    //console.log("geklickt");
     this.feedservice.increaseTamaSaturation();
     }
   }

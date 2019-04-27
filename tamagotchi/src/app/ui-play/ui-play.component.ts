@@ -19,7 +19,7 @@ export class UiPlayComponent implements OnInit {
   }
 
   play(){
-    console.log("Play Button wurde aufgerufen");
+    //console.log("Play Button wurde aufgerufen");
     this.tama.satisfaction_love+=10;
     if (this.tama.satisfaction_love>80){
       this.tama.status = TamagotchiStatus.PLAY;
