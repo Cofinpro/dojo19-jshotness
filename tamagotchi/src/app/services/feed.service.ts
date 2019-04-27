@@ -12,6 +12,6 @@ export class FeedService {
   constructor(private tama: TamagotchiService) { }
 
   increaseTamaSaturation() {
-    this.tama.getTamagotchi().saturation+= 50;
+    this.tama.getTamagotchi().saturation+= 20;
   }
 }
