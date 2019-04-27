@@ -13,33 +13,30 @@ class Gotchi extends React.Component {
     this.state = {
       messages: [],
       age: 0, // starting from 0
-      mood: 0, // range: -5 to 5
-      health: 45, // 100 (perfect) to 0 (dead)
-      hunger: 9, //range: 0 - 10
-      sugar: 0 //range 0 -10, ab 5 gesundheitsschädlich
+      mood: 50, // range: 100 (perfect) to 0 (maximum angry)
+      health: 45, // range: 100 (perfect) to 0 (dead)
+      hunger: 9, // range: 0 to 10
+      sugar: 0 // range: 0 to 10, ab 5 gesundheitsschädlich
     };
   }
 
   componentDidMount() {
-    this.timerID = setInterval(
-      () => this.tickMood(1),
+    this.timerID5s = setInterval(
+      () => this.timer5s(),
       5000
     );
-    this.timerHealth = setInterval(
-      () => this.tickHealth(5),
-      250000
-    );
-    this.timerHunger = setInterval(
-      () => this.tickHunger(),
-      8000
+    this.timerID10s = setInterval(
+      () => this.timer10s(),
+      10000
     );
   }
 
   componentWillUnmount() {
-    clearInterval(this.timerID);
+    clearInterval(this.timerID5s);
+    clearInterval(this.timerID10s);
   }
 
-  addEvent(text) {
+  logEvent(text) {
     this.setState(function (state) {
       const message = {
         id: state.messages.length,
@@ -50,74 +47,84 @@ class Gotchi extends React.Component {
     });
   }
 
+  /* User Actions */ 
   applyMedicine = () => {
-
-    if (this.state.health < 100) {
-      this.setState((state) => ({ health: state.health + 10 }));
-      this.addEvent("healing a little");
+    this.logEvent("taking medicine");
+    if (this.state.health >= 90) {
+      this.logEvent("healed fully");
     }
-    if (this.state.health === 95) {
-      this.setState((state) => ({ health: 100 }))
-      this.addEvent("healed fully");
-    }
-
+    this.increaseHealth(10);
   }
 
   feedApple = () => {
-    if (this.state.hunger < 100) {
-      this.setState((state) => ({ hunger: state.hunger - 3, sugar: state.sugar + 1 }));
-    }
+    this.increaseHunger(-2);
+    this.increaseSugar(1);
   }
 
   feedCandy = () => {
-    this.setState((state) => ({ sugar: state.sugar + 3, hunger: state.hunger - 1 }));
+    this.increaseHunger(-4);
+    this.increaseSugar(5);
   }
 
-  tickMood(value) {
-    this.setState((state) => ({ mood: state.mood - value }));
+
+  /* Timer Actions */ 
+  timer5s() {
+    this.increaseMood(-5); // mood reduces over time
+    this.healthEffects(); // apply effects of bad health
   }
 
-  tickHealth(value) {
-    this.setState((state) => ({ health: state.health - value }));
+  timer10s() {
+    this.increaseSugar(-1); // sugar in the blood reduces over time
+    this.increaseHunger(1); // hunger increases over time
+    this.hungerEffects(); // apply effects when the gochi is hungry
+    this.sugarEffects(); // apply effects when the gochi has a high sugar level
   }
 
-  tickHunger() {
-    if (this.state.hunger < 10) {
-      this.setState((state) => ({ hunger: state.hunger + 1 }), () => {
-        this.hungerEffects()
-      });
-    } else {
-      this.hungerEffects();
+  increaseMood(increment) {
+    this.setState((state) => ({ mood: Math.max(0, Math.min(100, state.mood + increment)) }));
+  }
+
+  increaseHealth(increment) {
+    this.setState((state) => ({ health: Math.max(0, Math.min(100, state.health + increment)) }));
+  }
+
+  increaseHunger(increment) {
+    this.setState((state) => ({ hunger: Math.max(0, Math.min(10, state.hunger + increment)) }));
+  }
+
+  increaseSugar(increment) {
+    this.setState((state) => ({ sugar: Math.max(0, Math.min(10, state.sugar + increment)) }));
+  }
+
+  healthEffects() {
+    if(this.state.health <= 50) { 
+      this.increaseHealth(-8);
     }
   }
 
-  tickSugar() {
-    if (this.state.sugar > 0) {
-      this.setState((state) => ({ sugar: state.sugar - 1 }));
-    }
+  sugarEffects() {
     if (this.state.sugar >= 5) {
-      this.setState((state) => ({ health: state.health - 5 }));
+      this.increaseHealth(-15);
     }
   }
 
   hungerEffects() {
     if (this.state.hunger >= 4) {
-      this.tickMood(this.state.hunger);
+      this.increaseMood(-this.state.hunger);
     }
     if (this.state.hunger >= 7) {
-      this.tickHealth(this.state.hunger);
+      this.increaseHealth(-this.state.hunger);
     }
   }
 
   selectEmojiFace() {
-
     if (this.state.health <= 30) {
       return sick_puke;
     }
     if (this.state.health <= 50) {
       return sick_thermo;
     }
-    if (this.state.health < 60) {
+    if (this.state.health <= 60) {
       return sick_green;
     }
     return smile;
