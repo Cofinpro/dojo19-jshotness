@@ -1,0 +1,7 @@
+{
+  "name": "dojo19",
+  "version": "1.0.0",
+  "dependencies": {
+    "lit-element": "latest"
+  }
+}
