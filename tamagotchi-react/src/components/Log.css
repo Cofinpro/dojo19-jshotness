@@ -21,19 +21,28 @@
   font-size: medium;
 }
 
+.Log-message-list .warning {
+  color: yellow;
+  font-weight: bold;
+  font-size: medium;
+}
+
 .Log-message-list .positive {
   color: green;
   font-weight: bold;
+  font-style: italic;
   font-size: small;
 }
 
 .Log-message-list .negative {
-  color: chocolate;
+  color: orangered;
   font-weight: bold;
+  font-style: italic;
   font-size: small;
 }
 
 .Log-message-list .informative {
   color: white;
+  font-weight: bold;
   font-size: x-small;
 }
