@@ -10,9 +10,7 @@ import { UiCuddleComponent } from './ui-cuddle/ui-cuddle.component';
 import { InteractService } from './services/interact.service';
 import { FeedService } from './services/feed.service';
 import { TamagotchiService } from './services/tamagotchi.service';
-import { TamagotchiHungryService } from './services/tamagotchi-hungry.service';
-import { TamagotchiCuddleneedService } from './services/tamagotchi-cuddleneed.service';
-import { TamagotchiPlayneedService } from './services/tamagotchi-playneed.service';
+
 
 @NgModule({
   declarations: [
@@ -26,7 +24,7 @@ import { TamagotchiPlayneedService } from './services/tamagotchi-playneed.servic
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [InteractService, FeedService, TamagotchiService, TamagotchiHungryService, TamagotchiCuddleneedService, TamagotchiPlayneedService],
+  providers: [InteractService, FeedService, TamagotchiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
