@@ -13,11 +13,10 @@ export class TamagotchiComponent implements OnInit {
 
   tama: Tamagotchi = {
     saturation : 45,
-    satisfaction_cuddle : 60, satisfaction_love : 30, status :TamagotchiStatus.Happy};
-
-  getStatusEnumName() : string {
-    return TamagotchiStatus[this.tama.status];
-  }
+    satisfaction_cuddle : 60,
+    satisfaction_love : 30,
+    status : TamagotchiStatus.HAPPY
+  };
 
   ngOnInit() {
   }

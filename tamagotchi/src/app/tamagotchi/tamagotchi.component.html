@@ -3,7 +3,7 @@
 
   <ul>
     <li>
-      Status: {{getStatusEnumName()}}
+      Status: {{tama.status.name}}
     </li>
     <li>
       Cuddle: {{tama.satisfaction_cuddle}}
@@ -15,6 +15,8 @@
       Hunger: {{tama.saturation}}
     </li>
   </ul>
+
+  <img src="{{tama.status.path}}" />
 
 </div>
 
