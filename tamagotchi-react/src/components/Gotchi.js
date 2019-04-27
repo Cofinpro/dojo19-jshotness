@@ -53,8 +53,8 @@ class Gotchi extends React.Component {
   }
 
   logInfo(text) { this.logEvent(text) }
-  logPositive(text) { this.logEvent(text, "positive") }
-  logNegative(text) { this.logEvent(text, "negative") }
+  logPositive(text) { this.logEvent("\""+text+"\"", "positive") }
+  logNegative(text) { this.logEvent("\""+text+"\"", "negative") }
   logWarning(text) { this.logEvent(text, "warning") }
   logCritical(text) { this.logEvent(text, "critical") }
 
@@ -93,6 +93,7 @@ class Gotchi extends React.Component {
       this.increaseMood(-10);
       return;
     }
+    this.logInfo("eating an apple");
     this.setState((state) => ({ lastTimeApple: new Date() }));
     this.logPositive("An apple a day keeps the doctor away :-)");
     this.increaseHunger(-2);
@@ -100,6 +101,7 @@ class Gotchi extends React.Component {
   }
 
   feedCandy = () => {
+    this.logInfo("eating lots of sweets");
     this.logPositive("Candyyyyy... I LIKE!");
     this.increaseHunger(-4);
     this.increaseSugar(5);
@@ -113,7 +115,7 @@ class Gotchi extends React.Component {
 
   /* Timer Actions */ 
   timer5s() {
-    this.increaseMood(-5); // mood reduces over time
+    this.increaseMood(-10); // mood reduces over time
     this.increaseSugar(-1); // sugar in the blood reduces over time
     this.healthEffects(); // apply effects of bad health
   }
@@ -144,13 +146,15 @@ class Gotchi extends React.Component {
     // bad health-condition tends to worsen on its own
     if(this.state.health <= 25) { 
       this.logCritical("Gotchi's condition ist getting very serious!");
-      this.increaseHealth(-5);
+      this.increaseHealth(-3);
     } else if(this.state.health <= 50) { 
       this.logWarning("Gotchi's illness got worse");
-      this.increaseHealth(-8);
-    } else if( this.getRandomInt(100) < 15 ) { // from time to time, illness happens randomly with 15% probability
+      this.increaseHealth(-4);
+    } else if( this.getRandomInt(100) < 8 ) { // from time to time, illness happens randomly with 8% probability
       this.logCritical("OMG!! Gotchi got an illness");
       this.increaseHealth(-20 - this.getRandomInt(20)); // impact between 20 and 40
+    } else {
+      this.increaseHealth(5);
     }
   }
 
