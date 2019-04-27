@@ -1,16 +1,23 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { timer } from 'rxjs';
+import { TamagotchiService } from './tamagotchi.service';
+import { Tamagotchi } from '../models/tamagotchi';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class TamagotchiTimerService {
 
-  //constructor() { 
-  //  let timer = Observable.timer(1000,1000);
-  //  timer.subscribe(t=)
+  constructor(tamagotchiService : TamagotchiService) {
+    console.log("timer");
+    timer(0, 1000).subscribe(() => this.tick(tamagotchiService.getTamagotchi()));
 
-  //}
-
+  }
+tick(tamagotchi : Tamagotchi){
+  tamagotchi.saturation-=1;
+  tamagotchi.satisfaction_cuddle-=2;
+  tamagotchi.satisfaction_love-=3;
+}
 
 }
