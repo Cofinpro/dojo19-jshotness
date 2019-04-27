@@ -16,7 +16,13 @@
     </li>
   </ul>
 
-  <img src="{{tama.status.path}}" />
+  <img [src]="tama.status.path" />
+
+  <app-ui-feed></app-ui-feed>
+  <app-ui-play></app-ui-play>
+  <app-ui-cuddle></app-ui-cuddle>
+
+  <button (click)="changeGif()">Invite to dance</button>
 
 </div>
 

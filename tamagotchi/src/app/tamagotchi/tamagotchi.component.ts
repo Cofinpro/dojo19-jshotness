@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Tamagotchi} from "../models/tamagotchi";
 import {TamagotchiStatus} from "../models/TamagotchiStatus";
+import { InteractService } from '../services/interact.service';
 
 @Component({
   selector: 'app-tamagotchi',
@@ -9,7 +10,10 @@ import {TamagotchiStatus} from "../models/TamagotchiStatus";
 })
 export class TamagotchiComponent implements OnInit {
 
-  constructor() { }
+
+  constructor(private interactService : InteractService) {
+    this.interactService.registerTamagotchi(this.tama);
+  }
 
   tama: Tamagotchi = {
     saturation : 45,
@@ -19,6 +23,11 @@ export class TamagotchiComponent implements OnInit {
   };
 
   ngOnInit() {
+  
+  }
+
+  changeGif() : void {
+    this.tama.status = TamagotchiStatus.DANCE;
   }
 
 }

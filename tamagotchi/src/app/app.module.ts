@@ -7,6 +7,7 @@ import { TamagotchiComponent } from './tamagotchi/tamagotchi.component';
 import { UiFeedComponent } from './ui-feed/ui-feed.component';
 import { UiPlayComponent } from './ui-play/ui-play.component';
 import { UiCuddleComponent } from './ui-cuddle/ui-cuddle.component';
+import { InteractService } from './services/interact.service';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { UiCuddleComponent } from './ui-cuddle/ui-cuddle.component';
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [InteractService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
