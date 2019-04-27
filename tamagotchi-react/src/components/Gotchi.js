@@ -1,5 +1,5 @@
 import React from 'react';
-import smile from '../smile.png';
+import smile from '../emojis/smile.png';
 import './Gotchi.css';
 
 class Gotchi extends React.Component {
