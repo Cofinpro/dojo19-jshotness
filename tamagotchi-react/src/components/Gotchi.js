@@ -21,8 +21,15 @@ class Gotchi extends React.Component {
       mood: 75, // range: 100 (perfect) to 0 (maximum angry)
       health: 70, // range: 100 (perfect) to 0 (dead)
       hunger: 9, // range: 0 to 10
-      sugar: 0 // range: 0 to 10, ab 5 gesundheitsschädlich
+      sugar: 0, // range: 0 to 10, ab 5 gesundheitsschädlich
+      lastTimeMedicine: new Date(0),
+      lastTimeApple: new Date(0)
     };
+  }
+
+  secondsSince(timestamp) {
+    const diffMillies = new Date().getTime() - timestamp.getTime();
+    return diffMillies/1000;
   }
 
   componentDidMount() {
@@ -54,6 +61,13 @@ class Gotchi extends React.Component {
 
   /* User Actions */ 
   applyMedicine = () => {
+    if(this.secondsSince(this.state.lastTimeMedicine) < 5) {
+      this.logEvent("too much medicine is no good");
+      this.increaseHealth(-5);
+      return;
+    }
+    this.setState((state) => ({ lastTimeMedicine: new Date() }));
+
     this.logEvent("taking medicine");
     if (this.state.health >= 90) {
       this.logEvent("healed fully");
@@ -62,6 +76,12 @@ class Gotchi extends React.Component {
   }
 
   feedApple = () => {
+    if(this.secondsSince(this.state.lastTimeApple) < 10) {
+      this.logEvent("I JUST had an apple!!!!! :-(");
+      this.increaseMood(-10);
+      return;
+    }
+    this.setState((state) => ({ lastTimeApple: new Date() }));
     this.logEvent("An apple a day keeps the doctor away :-)");
     this.increaseHunger(-2);
     this.increaseSugar(1);
