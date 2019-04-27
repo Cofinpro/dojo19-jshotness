@@ -140,7 +140,9 @@ class Gotchi extends React.Component {
   increaseHealth(increment) {
     this.setState((state) => ({ health: Math.max(0, Math.min(100, state.health + increment))}));
     if (this.state.health === 0) { 
-      this.setState((state) => ({dead: true}));
+      this.setState(() => ({dead: true}));
+     this.componentWillUnmount();
+     this.logCritical("Gotchi died 😭😭😭 This is a sad day! ⚱️")
     }
   }
 
@@ -164,7 +166,7 @@ class Gotchi extends React.Component {
       this.logCritical("OMG!! Gotchi got an illness");
       this.increaseHealth(-20 - this.getRandomInt(20)); // impact between 20 and 40
     } else {
-      this.increaseHealth(5);
+      this.increaseHealth(-5);
     }
   }
 
