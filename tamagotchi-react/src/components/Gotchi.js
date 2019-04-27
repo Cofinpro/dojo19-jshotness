@@ -111,7 +111,7 @@ class Gotchi extends React.Component {
   }
 
   playVideoGames = () => {
-    if(this.secondsSince(this.state.lastTimeGaming) < 5) {
+    if(this.secondsSince(this.state.lastTimeGaming) < 3) {
       this.logWarning("Gotchi deserves a break, don't you think?")
       return;
     }
