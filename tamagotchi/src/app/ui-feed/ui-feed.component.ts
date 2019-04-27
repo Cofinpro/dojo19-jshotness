@@ -10,7 +10,7 @@ import { FeedService } from '../services/feed.service';
 })
 export class UiFeedComponent implements OnInit {
 
-  constructor( @Host() private parent: AppComponent, private feedservice : FeedService) { }
+  constructor( private feedservice : FeedService) { }
 
   ngOnInit() {
   }

@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {Tamagotchi} from "../models/tamagotchi";
-import {TamagotchiStatus} from "../models/TamagotchiStatus";
+import { Component, OnInit } from '@angular/core';
+import { Tamagotchi } from "../models/tamagotchi";
+import { TamagotchiStatus } from "../models/TamagotchiStatus";
+
 import { TamagotchiService } from '../services/tamagotchi.service';
 
 @Component({
@@ -11,15 +12,24 @@ import { TamagotchiService } from '../services/tamagotchi.service';
 
 export class TamagotchiComponent implements OnInit {
 
-  public tama;
 
-  constructor(private tamagotchi :TamagotchiService) { }
+  public tama : Tamagotchi;
+
+  constructor(private tamagotchi: TamagotchiService) {
+    
+  }
 
   ngOnInit(): void {
     this.tama = this.tamagotchi.getTamagotchi();
   }
 
-  getStatus(){
+  getStatus() {
     return this.tamagotchi.getStatus();
+
+  }
+  changeGif(): void {
+    this.tama.status = TamagotchiStatus.DANCE;
+
+
   }
 }
