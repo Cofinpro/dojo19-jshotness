@@ -20,10 +20,14 @@
   overflow: hidden;
 }
 
-.Gotchi-face {
+.Gotchi-face-alive{
   animation: Gotchi-face-wiggle infinite 2s ease-in-out;
   height: 40vmin;
   pointer-events: none;
+}
+
+.Gotchi-face {
+  height: 40vmin;
 }
 
 .Gotchi-button {

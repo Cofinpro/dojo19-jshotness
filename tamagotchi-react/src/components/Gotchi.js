@@ -133,7 +133,9 @@ class Gotchi extends React.Component {
   increaseHealth(increment) {
     this.setState((state) => ({ health: Math.max(0, Math.min(100, state.health + increment))}));
     if (this.state.health === 0) { 
-      this.setState((state) => ({dead: true}));
+      this.setState(() => ({dead: true}));
+     this.componentWillUnmount();
+     this.logCritical("Gotchi died 😭😭😭 This is a sad day! ⚱️")
     }
   }
 
@@ -157,7 +159,7 @@ class Gotchi extends React.Component {
       this.logCritical("OMG!! Gotchi got an illness");
       this.increaseHealth(-20 - this.getRandomInt(20)); // impact between 20 and 40
     } else {
-      this.increaseHealth(5);
+      this.increaseHealth(-5);
     }
   }
 
@@ -222,7 +224,8 @@ class Gotchi extends React.Component {
           <PlayVideoGamesButton playVideoGames={this.playVideoGames} dead={this.state.dead}/>
         </div>
         <div className="Gotchi-box">
-          <img src={this.selectEmojiFace()} alt="" className="Gotchi-face" />
+          <img src={this.selectEmojiFace()} alt="" 
+          className={this.state.dead == true ? 'Gotchi-face' : 'Gotchi-face-alive'} />
         </div>
         <Log messages={this.state.messages} className="Gotchi-log" />
       </div>
