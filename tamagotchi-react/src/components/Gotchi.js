@@ -68,7 +68,7 @@ class Gotchi extends React.Component {
 
   /** type: (informative|positive|negative|critical) */
   logEvent(text, type = "informative") {
-    this.setState(function (state) {
+    this.updateState(function (state) {
       const message = {
         id: state.messages.length,
         timestamp: new Date(),
@@ -87,7 +87,7 @@ class Gotchi extends React.Component {
       this.increaseHealth(-1);
       return;
     }
-    this.setState((state) => ({ lastTimeMedicine: new Date() }));
+    this.updateState((state) => ({ lastTimeMedicine: new Date() }));
 
     this.logInfo("taking medicine");
     this.logPositive("Ahhh... I already start feeling better");
@@ -104,7 +104,7 @@ class Gotchi extends React.Component {
       return;
     }
     this.logInfo("eating an apple");
-    this.setState((state) => ({ lastTimeApple: new Date() }));
+    this.updateState((state) => ({ lastTimeApple: new Date() }));
     this.logPositive("An apple a day keeps the doctor away :-)");
     this.increaseHunger(-2);
     this.increaseHealth(5);
@@ -122,7 +122,7 @@ class Gotchi extends React.Component {
       this.logWarning("Gotchi deserves a break, don't you think?")
       return;
     }
-    this.setState((state) => ({ lastTimeGaming: new Date() }));
+    this.updateState((state) => ({ lastTimeGaming: new Date() }));
 
     this.logPositive("Let's play! Fuuuuuuuuuun :D");
     this.increaseMood(20);
@@ -151,30 +151,30 @@ class Gotchi extends React.Component {
   }
 
   increaseMood(increment) {
-    this.setState((state) => ({ mood: Math.max(0, Math.min(100, state.mood + increment)) }));
+    this.updateState((state) => ({ mood: Math.max(0, Math.min(100, state.mood + increment)) }));
   }
 
   increaseHealth(increment) {
-    this.setState((state) => ({ health: Math.max(0, Math.min(100, state.health + increment))}));
+    this.updateState((state) => ({ health: Math.max(0, Math.min(100, state.health + increment))}));
   }
 
   increaseHunger(increment) {
-    this.setState((state) => ({ hunger: Math.max(0, Math.min(10, state.hunger + increment)) }));
+    this.updateState((state) => ({ hunger: Math.max(0, Math.min(10, state.hunger + increment)) }));
   }
 
   increaseSugar(increment) {
-    this.setState((state) => ({ sugar: Math.max(0, Math.min(10, state.sugar + increment)) }));
+    this.updateState((state) => ({ sugar: Math.max(0, Math.min(10, state.sugar + increment)) }));
   }
 
   increaseAge() {
-    this.setState((state) => ({age: state.age + 1}));
+    this.updateState((state) => ({age: state.age + 1}));
   }
   
   checkIfDead() {
     if (this.state.health === 0) { 
       this.stopTimers();
       this.logCritical("Gotchi died 😭😭😭 This is a sad day! ⚱️")
-      this.setState(() => ({dead: true}));
+      this.updateState(() => ({dead: true}));
     }
   }
 
@@ -212,62 +212,65 @@ class Gotchi extends React.Component {
     }
   }
 
-  determineEmojiFace() {
-    if (this.state.health === 0) {
+  determineEmojiFace(state) {
+    if (state.health === 0) {
       return dead;
     }
-    if (this.state.health <= 30) {
+    if (state.health <= 30) {
       return sick_puke;
     }
-    if (this.state.health <= 50) {
+    if (state.health <= 50) {
       return sick_thermo;
     }
-    if (this.state.health <= 60) {
+    if (state.health <= 60) {
       return unhappy;
     }
-     if (this.state.mood <= 20 || this.state.hunger > 8) {
+     if (state.mood <= 20 || state.hunger > 8) {
       return swearing;
     }
-    if (this.state.mood <= 40 || this.state.hunger > 6) {
+    if (state.mood <= 40 || state.hunger > 6) {
       return angry;
     }
-    if (this.state.mood <= 80 || this.state.hunger > 3) {
+    if (state.mood <= 80 || state.hunger > 3) {
       return smile;
     }
     return happy;
   }
 
-  setState(state, callback) {
-    super.setState(state, callback);
-    this.updateEmoji();
+  updateState(callback) {
+    this.setState(function (state) {
+      const stateChanges = callback(state);
+      const mergedState = Object.assign({}, state, stateChanges);
+      const stateChangesInclEmoji = Object.assign({}, stateChanges, this.updateEmojiState(mergedState));
+      return stateChangesInclEmoji;
+    });
   }
 
   /** call whenever some changes are made to the status */
-  updateEmoji() {
-    const newEmoji = this.determineEmojiFace();
-    super.setState(function (state) { 
-      const currentEmoji = state.emojiAactive ? state.emojiA : state.emojiB;
-      if( currentEmoji == newEmoji ) { return };
+  updateEmojiState(state) {
+    const newEmoji = this.determineEmojiFace(state);
+    const currentEmoji = state.emojiAactive ? state.emojiA : state.emojiB;
 
-      if( newEmoji == dead ) {
-        return {
-          emojiAclass: state.emojiAactive ? "fadeout" : "fadein stop-animation",
-          emojiBclass: state.emojiAactive ? "fadein stop-animation" : "fadeout",
-          emojiA: state.emojiAactive ? state.emojiA : newEmoji,
-          emojiB: state.emojiAactive ? newEmoji : state.emojiB, 
-          emojiAactive: !state.emojiAactive 
-        };
-      }
+    if( currentEmoji == newEmoji ) { return {} };
 
-      // change active emoji, fade one in and the other out
+    if( newEmoji == dead ) {
       return {
-        emojiAclass: state.emojiAactive ? "fadeout" : "fadein",
-        emojiBclass: state.emojiAactive ? "fadein" : "fadeout",
+        emojiAclass: state.emojiAactive ? "fadeout" : "fadein stop-animation",
+        emojiBclass: state.emojiAactive ? "fadein stop-animation" : "fadeout",
         emojiA: state.emojiAactive ? state.emojiA : newEmoji,
         emojiB: state.emojiAactive ? newEmoji : state.emojiB, 
         emojiAactive: !state.emojiAactive 
       };
-    });
+    }
+
+    // change active emoji, fade one in and the other out
+    return {
+      emojiAclass: state.emojiAactive ? "fadeout" : "fadein",
+      emojiBclass: state.emojiAactive ? "fadein" : "fadeout",
+      emojiA: state.emojiAactive ? state.emojiA : newEmoji,
+      emojiB: state.emojiAactive ? newEmoji : state.emojiB, 
+      emojiAactive: !state.emojiAactive 
+    };
   }
 
   render() {
