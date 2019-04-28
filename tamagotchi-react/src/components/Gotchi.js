@@ -9,7 +9,6 @@ import happy from '../emojis/happy.png';
 import angry from '../emojis/angry.png';
 import swearing from '../emojis/swearing.png';
 import './Gotchi.css';
-import { stat } from 'fs';
 
 class Gotchi extends React.Component {
   constructor(props) {
@@ -251,9 +250,9 @@ class Gotchi extends React.Component {
     const newEmoji = this.determineEmojiFace(state);
     const currentEmoji = state.emojiAactive ? state.emojiA : state.emojiB;
 
-    if( currentEmoji == newEmoji ) { return {} };
+    if( currentEmoji === newEmoji ) { return {} };
 
-    if( newEmoji == dead ) {
+    if( newEmoji === dead ) {
       return {
         emojiAclass: state.emojiAactive ? "fadeout" : "fadein stop-animation",
         emojiBclass: state.emojiAactive ? "fadein stop-animation" : "fadeout",
@@ -303,8 +302,7 @@ class HealButton extends React.Component {
     return (
       <button className="Gotchi-button" 
       onClick={() => this.props.applyMedicine()}
-      disabled={this.props.dead}
-      > 💊</button>
+      disabled={this.props.dead}><span role="img" aria-label="Medicine">💊</span></button>
     );
   }
 }
@@ -312,9 +310,9 @@ class HealButton extends React.Component {
 class FeedButton extends React.Component {
   render() {
     return (
-      <button className="Gotchi-button" onClick={
-        () => this.props.feedApple()}
-        disabled={this.props.dead}> 🍎</button>
+      <button className="Gotchi-button" onClick={() => this.props.feedApple()} disabled={this.props.dead}>
+        <span role="img" aria-label="Apple">🍎</span>
+      </button>
     );
   }
 }
@@ -322,8 +320,9 @@ class FeedButton extends React.Component {
 class FeedCandyButton extends React.Component {
   render() {
     return (
-      <button className="Gotchi-button" onClick={
-        () => this.props.feedCandy()} disabled={this.props.dead}> 🍭</button>
+      <button className="Gotchi-button" onClick={() => this.props.feedCandy()} disabled={this.props.dead}>
+        <span role="img" aria-label="Candy">🍭</span>
+      </button>
     )
   }
 }
@@ -331,8 +330,9 @@ class FeedCandyButton extends React.Component {
 class PlayVideoGamesButton extends React.Component {
   render () {
     return (
-      <button className="Gotchi-button" onClick={
-        () => this.props.playVideoGames()} disabled={this.props.dead}> 🎮</button>
+      <button className="Gotchi-button" onClick={() => this.props.playVideoGames()} disabled={this.props.dead}> 
+        <span role="img" aria-label="Play">🎮</span>
+      </button>
     )
   }
 }
