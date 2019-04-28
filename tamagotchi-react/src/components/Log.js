@@ -11,7 +11,7 @@ function Log (props) {
   
   return (
     <div className="Log-container">
-      Events:
+      <div className="Log-header">Events:</div>
       <ul className="Log-message-list">{lines}</ul>
     </div>
   );

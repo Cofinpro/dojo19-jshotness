@@ -6,30 +6,32 @@
 
 .Gotchi-status {
   flex: 1 0 auto;
+  width: 25vw;
 }
 
 .Gotchi-box {
   position: relative;
   flex: 0 0 auto; 
-  width: 400px;
+  width: 35vw;
 }
 
 .Gotchi-box img {
   position: absolute;
-  left: 50px;
+  left: 0;
   top: 0;
 }
 
 .Gotchi-log {
   flex: 1 0 auto;
-  width: 700px;
-  height: 500px;
   overflow: hidden;
 }
 
 .Gotchi-face{
-  height: 40vmin;
   pointer-events: none;
+
+  margin-left: 0vw;
+  margin-right: 10vw;
+  width: 25vw;
 }
 
 .Gotchi-face.fadeout {

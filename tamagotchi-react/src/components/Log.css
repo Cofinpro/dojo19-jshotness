@@ -1,11 +1,21 @@
 .Log-container {
   text-align: left;
-  overflow: hidden;
+  min-width: 30vw;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.Log-header {
 }
 
 .Log-message-list {
+  flex-grow: 1;
   list-style: none;
   padding-left: 0;
+  overflow: scroll;
+  width: 100%;
 }
 
 .Log-time {
