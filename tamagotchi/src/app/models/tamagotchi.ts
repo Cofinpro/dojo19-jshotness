@@ -40,7 +40,7 @@ export class Tamagotchi {
         this.status = TamagotchiStatus.CLOSE_TO_DEATH;
         this.hint = "I am really starving! I am nearly dying";
       } else if (this.saturation <= 40) {
-        this.status = TamagotchiStatus.CLOSE_TO_DEATH;
+        this.status = TamagotchiStatus.HUNGRY;
         this.hint = "I am hungry!";
       } else if (this.satisfaction_cuddle <= 20) {
         this.status = TamagotchiStatus.CLOSE_TO_DEATH;
@@ -61,7 +61,9 @@ export class Tamagotchi {
         this.status = TamagotchiStatus.HAPPY;
         this.hint = "Hey dude, are you bored?";
       }
-    } else {
+    }  else if ((this.satisfaction_love >= 90)&&(this.satisfaction_cuddle >= 90)&&(this.saturation >= 90)){
+      this.status = TamagotchiStatus.LOVE;
+    }  else {
       this.status = TamagotchiStatus.HAPPY;
       this.hint = "I am happy";
     }

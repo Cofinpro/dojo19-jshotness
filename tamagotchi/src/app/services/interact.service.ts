@@ -18,9 +18,10 @@ export class InteractService {
     //console.log("cuddle value : " + this.tamagotchi.satisfaction_cuddle);
     this.tamagotchi.satisfaction_cuddle += 10;
     //console.log("cuddle value : " + this.tamagotchi.satisfaction_cuddle);
-    if (this.tamagotchi.satisfaction_cuddle > 90) {
-      this.tamagotchi.status = TamagotchiStatus.CUDDLE;
-    }
+    // if (this.tamagotchi.satisfaction_cuddle > 90) {
+    //   this.tamagotchi.status = TamagotchiStatus.CUDDLE;
+    // }
+    this.tamagotchi.status = TamagotchiStatus.CUDDLE;
   }
 
   public getTamagotchi() : Tamagotchi {
