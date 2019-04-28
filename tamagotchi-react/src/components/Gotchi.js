@@ -43,21 +43,10 @@ class Gotchi extends React.Component {
   }
 
   componentDidMount() {
-    this.timerID5s = setInterval(
-      () => this.timer5s(),
-      5000
-    );
-    this.timerID10s = setInterval(
-      () => this.timer10s(),
-      10000
-    );
-    this.timerID60s = setInterval(
-      () => this.timer60s(),
-      60000
-    );
     this.timerID1s = setInterval( () => this.timer1s(), 1000 );
     this.timerID5s = setInterval( () => this.timer5s(), 5000 );
     this.timerID10s = setInterval( () => this.timer10s(), 10000 );
+    this.timerID60s = setInterval( () => this.timer60s(), 60000 );
   }
 
   componentWillUnmount() {
@@ -146,7 +135,7 @@ class Gotchi extends React.Component {
   }
 
   timer5s() {
-    this.increaseMood(-7); // mood reduces over time
+    this.increaseMood(-6); // mood reduces over time
     this.increaseSugar(-1); // sugar in the blood reduces over time
     this.healthEffects(); // apply effects of bad health
   }
@@ -286,10 +275,10 @@ class Gotchi extends React.Component {
       <div className="Gotchi-frame">
         <div className="Gotchi-status">
           <h6>Age: {this.state.age}</h6>
-          <h6>Mood: {this.state.mood}</h6>
-          <h6>Health: {this.state.health}</h6>
-          <h6>Hunger: {this.state.hunger}</h6>
-          <h6>Sugar: {this.state.sugar}</h6>
+          <h6>Mood: {this.state.mood}/100</h6>
+          <h6>Health: {this.state.health}/100</h6>
+          <h6>Hunger: {this.state.hunger}/10</h6>
+          <h6>Sugar: {this.state.sugar}/10</h6>
           <FeedButton feedApple={this.feedApple} dead={this.state.dead}/>
           <FeedCandyButton feedCandy={this.feedCandy} dead={this.state.dead}/>
           <br/>
